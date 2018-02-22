@@ -14,11 +14,30 @@ $(document).ready(function() {
 
 	var socket = io.connect('http://127.0.0.1:5000');
 	$('#at1').on('click',function(){
-		socket.emit('vote',1);
+		socket.emit('vote',{agenda:'at',option:1});
 	});
 	$('#at2').on('click',function(){
-		socket.emit('vote',2);
+		socket.emit('vote',{agenda:'at',option:2});
 	});
+	$('#pv1_1').on('click',function(){
+		socket.emit('vote',{agenda:'pv1',option:1});
+	});
+	$('#pv1_2').on('click',function(){
+		socket.emit('vote',{agenda:'pv1',option:2});
+	});
+	$('#pv2_1').on('click',function(){
+		socket.emit('vote',{agenda:'pv2',option:1});
+	});
+	$('#pv2_2').on('click',function(){
+		socket.emit('vote',{agenda:'pv2',option:2});
+	});
+	$('#sv1').on('click',function(){
+		socket.emit('vote',{agenda:'sv',option:1});
+	});
+	$('#sv2').on('click',function(){
+		socket.emit('vote',{agenda:'sv',option:2});
+	});
+
 	socket.on('vote_results',function(results){
 		var total_votes=results.results1+results.results2;
 		var one_pct = Math.round(results.results1/total_votes*100);
@@ -80,7 +99,8 @@ Substantial Voting
 	<div id="res_sv2" class="progress-bar progress-bar-info" style="width: 20%">
 	</div>
 	<div id="res_sv3" class="progress-bar progress-bar-warning" style="width: 20%">
-	</div><div id="res_sv4" class="progress-bar progress-bar-danger" style="width: 20%">
+	</div>
+	<div id="res_sv4" class="progress-bar progress-bar-danger" style="width: 20%">
 	</div>
 	<div id="res_sv5" class="progress-bar progress-bar-success progress-bar-striped" style="width: 20%">
 	</div>
