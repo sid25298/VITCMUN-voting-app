@@ -8,9 +8,6 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 </head>
 <body>
-<!--[if IE]><script src="excanvas.js"></script><![endif]-->
-	<script src="html5-canvas-bar-graph.js"></script>
-
 <script type="text/javascript">
     function getCookie(cname) {
     var name = cname + "=";
@@ -29,6 +26,12 @@
 }
 
 $(document).ready(function() {
+	  str=window.location.href
+      
+       ghar=(str).substr((str).indexOf('//')+2)
+      
+       var socket=io.connect(ghar);
+   
 	$('#at_1').off('click');
 	$('#at_2').off('click');
 	$('#pv1_1').off('click');
@@ -41,64 +44,130 @@ $(document).ready(function() {
 	$('#sv_4').off('click');
 	$('#sv_5').off('click');
 	var us=getCookie('Loginwala');
-	var socket = io.connect('http://127.0.0.1:5000');
-	
+socket.on('vote_on',function(control){
+if(control.agenda=='at')
+{
+	$('#at_1').on('click',function(){
+		$('#at_1').off('click');
+		$('#at_2').off('click');
+		socket.emit('vote',{agenda:'at',option:1,user:us});
+	});
+	$('#at_2').on('click',function(){
+		$('#at_1').off('click');
+		$('#at_2').off('click');
+		socket.emit('vote',{agenda:'at',option:2,user:us});
+	});
+}
+if(control.agenda=='pv1')
+{
 	$('#pv1_1').on('click',function(){
+		$('#pv1_1').off('click');
+		$('#pv1_2').off('click');
 		socket.emit('vote',{agenda:'pv1',option:1,user:us});
 	});
 	$('#pv1_2').on('click',function(){
+		$('#pv1_1').off('click');
+		$('#pv1_2').off('click');
 		socket.emit('vote',{agenda:'pv1',option:2,user:us});
 	});
+}
+if(control.agenda=='pv2')
+{
 	$('#pv2_1').on('click',function(){
+		$('#pv2_1').off('click');
+		$('#pv2_2').off('click');
 		socket.emit('vote',{agenda:'pv2',option:1,user:us});
 	});
 	$('#pv2_2').on('click',function(){
+		$('#pv2_1').off('click');
+		$('#pv2_2').off('click');
 		socket.emit('vote',{agenda:'pv2',option:2,user:us});
 	});
+}
+if(control.agenda=='sv')
+{
 	$('#sv_1').on('click',function(){
+		$('#sv_1').off('click');
+	$('#sv_2').off('click');	
+	$('#sv_3').off('click');
+	$('#sv_4').off('click');
+	$('#sv_5').off('click');
 		socket.emit('vote',{agenda:'sv',option:1,user:us});
 	});
 	$('#sv_2').on('click',function(){
+		$('#sv_1').off('click');
+	$('#sv_2').off('click');	
+	$('#sv_3').off('click');
+	$('#sv_4').off('click');
+	$('#sv_5').off('click');
 		socket.emit('vote',{agenda:'sv',option:2,user:us});
 	});
 	$('#sv_3').on('click',function(){
+		$('#sv_1').off('click');
+	$('#sv_2').off('click');	
+	$('#sv_3').off('click');
+	$('#sv_4').off('click');
+	$('#sv_5').off('click');
 		socket.emit('vote',{agenda:'sv',option:3,user:us});
 	});
 	$('#sv_4').on('click',function(){
+		$('#sv_1').off('click');
+	$('#sv_2').off('click');	
+	$('#sv_3').off('click');
+	$('#sv_4').off('click');
+	$('#sv_5').off('click');
 		socket.emit('vote',{agenda:'sv',option:4,user:us});
 	});
 	$('#sv_5').on('click',function(){
+		$('#sv_1').off('click');
+	$('#sv_2').off('click');	
+	$('#sv_3').off('click');
+	$('#sv_4').off('click');
+	$('#sv_5').off('click');
 		socket.emit('vote',{agenda:'sv',option:5,user:us});
 	});
-		socket.on('vote_on',function(control){
+}	
 			
 	});
 		socket.on('vote_off',function(control){
-		if(control.agenda==at)
+		if(control.agenda=='at')
 		{
-			$('#at_1').on('click',function(){
-		socket.emit('vote',{agenda:'at',option:1,user:us});
-		$('#at_1').off('click');
-	});
-	$('#at_2').on('click',function(){
-		socket.emit('vote',{agenda:'at',option:2,user:us});
-	});
-		
+			
+			$('#at_1').off('click');
+			$('#at_2').off('click');
+		}
+		else if(control.agenda=='pv1')
+		{	
+			$('#pv1_1').off('click');
+			$('#pv1_2').off('click');
+		}
+		else if(control.agenda=='pv2')
+		{	
+			$('#pv2_1').off('click');
+			$('#pv2_2').off('click');
+		}
+		else if(control.agenda=='sv')
+		{	
+			$('#sv_1').off('click');
+			$('#sv_2').off('click');
+			$('#sv_3').off('click');
+			$('#sv_4').off('click');
+			$('#sv_5').off('click');
 		}
 	});
 		socket.on('vote_results',function(results){
 		var total_votes=results.results1+results.results2+results.results3+results.results4+results.results5;
 		
 		
-		var two_pct = results.results2;
+		var two_pct = Math.round(results.results2/total_votes*100);
 		
-		var three_pct = results.results3;
+		var three_pct = Math.round(results.results3/total_votes*100);
 
-		var four_pct = results.results4;
+		var four_pct = Math.round(results.results4/total_votes*100);
 
-		var five_pct = results.results5;
+		var five_pct = Math.round(results.results5/total_votes*100);
 
-		var one_pct = results.results1;
+		var one_pct = 100-two_pct-three_pct-four_pct-five_pct;
 	console.log(results.agenda);
 	console.log(one_pct);
 	console.log(two_pct);
@@ -111,33 +180,32 @@ console.log(three_pct);console.log(four_pct);console.log(five_pct);
 	
 
 	});
-});
-(function () {
-	
-		function createCanvas(divName) {
-			
-			var div = document.getElementById(divName);
-			var canvas = document.createElement('canvas');
-			div.appendChild(canvas);
-			if (typeof G_vmlCanvasManager != 'undefined') {
-				canvas = G_vmlCanvasManager.initElement(canvas);
-			}	
-			var ctx = canvas.getContext("2d");
-			return ctx;
+	socket.on('vote_reset',function(ag){
+		if(ag=='sv')
+		{
+			one_pct=20
+			two_pct=20
+			three_pct=20
+			four_pct=20
+			five_pct=20
 		}
-		
-		var ctx = createCanvas("graphDiv1");
-		
-		var graph = new BarGraph(ctx);
-		graph.maxValue = 30;
-		graph.margin = 2;
-		graph.colors = ["#49a0d8", "#d353a0", "#ffc527", "#df4c27", "#49a0d8"];
-		graph.xAxisLabelArr = ["Yes", "YWR", "No", "NWR","Abstain"];
-		setInterval(function () {
-			graph.update([Math.random() * 30, Math.random() * 30, Math.random() * 30, Math.random() * 30, Math.random() * 30]);
-		}, 1000);
+		else
+		{
+			one_pct=50
+			two_pct=50
+			three_pct=0
+			four_pct=0
+			five_pct=0
+		}
+	$(('#res_' + ag+'_1')).css('width',one_pct+'%');
+	$(('#res_' + ag+'_2')).css('width',two_pct+'%');
+	$(('#res_' + ag+'_3')).css('width',three_pct+'%');
+	$(('#res_' + ag+'_4')).css('width',four_pct+'%');
+	$(('#res_' + ag+'_5')).css('width',five_pct+'%');
+	
+	});
+});
 
-	}());
 </script>
 
 Attendance
@@ -156,9 +224,13 @@ Procedural Voting (1)
 <button id="pv1_1">Second</button>
 <button id="pv1_2">Oppose</button>
 <br><br>
-<div id="graphDiv1"></div>
-<br />
-<div id="graphDiv2"></div>
+<div class="progress">
+	<div id="res_pv1_1" class="progress-bar progress-bar-success" style="width: 50%">
+	</div>
+	<div id="res_pv1_2" class="progress-bar progress-bar-info" style="width: 50%">
+	</div>
+	
+</div>
 Procedural Voting (2) 
 <button id="pv2_1">For</button>
 <button id="pv2_2">Against</button>

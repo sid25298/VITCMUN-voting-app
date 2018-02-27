@@ -26,8 +26,14 @@
 }
 
 $(document).ready(function() {
+		  str=window.location.href
+      
+       ghar=(str).substr((str).indexOf('//')+2)
+      
+       var socket=io.connect(ghar);
+   
 	var us=getCookie('Loginwala');
-	var socket = io.connect('http://127.0.0.1:5000');
+	
 	$('#at_s').on('click',function(){
 		socket.emit('ctrl',{agenda:'at',option:1,user:us});
 	});
@@ -87,6 +93,30 @@ $(document).ready(function() {
 	$(('#res_' + results.agenda+'_5')).css('width',five_pct+'%');
 	
 
+	});
+	socket.on('vote_reset',function(ag){
+		if(ag=='sv')
+		{
+			one_pct=20
+			two_pct=20
+			three_pct=20
+			four_pct=20
+			five_pct=20
+		}
+		else
+		{
+			one_pct=50
+			two_pct=50
+			three_pct=0
+			four_pct=0
+			five_pct=0
+		}
+	$(('#res_' + ag+'_1')).css('width',one_pct+'%');
+	$(('#res_' + ag+'_2')).css('width',two_pct+'%');
+	$(('#res_' + ag+'_3')).css('width',three_pct+'%');
+	$(('#res_' + ag+'_4')).css('width',four_pct+'%');
+	$(('#res_' + ag+'_5')).css('width',five_pct+'%');
+	
 	});
 });
 

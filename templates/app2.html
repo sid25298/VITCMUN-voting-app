@@ -8,6 +8,9 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 </head>
 <body>
+<!--[if IE]><script src="excanvas.js"></script><![endif]-->
+	<script src="html5-canvas-bar-graph.js"></script>
+
 <script type="text/javascript">
     function getCookie(cname) {
     var name = cname + "=";
@@ -73,7 +76,13 @@ $(document).ready(function() {
 		socket.on('vote_off',function(control){
 		if(control.agenda==at)
 		{
-			
+			$('#at_1').on('click',function(){
+		socket.emit('vote',{agenda:'at',option:1,user:us});
+		$('#at_1').off('click');
+	});
+	$('#at_2').on('click',function(){
+		socket.emit('vote',{agenda:'at',option:2,user:us});
+	});
 		
 		}
 	});
@@ -81,15 +90,15 @@ $(document).ready(function() {
 		var total_votes=results.results1+results.results2+results.results3+results.results4+results.results5;
 		
 		
-		var two_pct = Math.round(results.results2/total_votes*100);
+		var two_pct = results.results2;
 		
-		var three_pct = Math.round(results.results3/total_votes*100);
+		var three_pct = results.results3;
 
-		var four_pct = Math.round(results.results4/total_votes*100);
+		var four_pct = results.results4;
 
-		var five_pct = Math.round(results.results5/total_votes*100);
+		var five_pct = results.results5;
 
-		var one_pct = 100-two_pct-three_pct-four_pct-five_pct;
+		var one_pct = results.results1;
 	console.log(results.agenda);
 	console.log(one_pct);
 	console.log(two_pct);
@@ -103,7 +112,32 @@ console.log(three_pct);console.log(four_pct);console.log(five_pct);
 
 	});
 });
+(function () {
+	
+		function createCanvas(divName) {
+			
+			var div = document.getElementById(divName);
+			var canvas = document.createElement('canvas');
+			div.appendChild(canvas);
+			if (typeof G_vmlCanvasManager != 'undefined') {
+				canvas = G_vmlCanvasManager.initElement(canvas);
+			}	
+			var ctx = canvas.getContext("2d");
+			return ctx;
+		}
+		
+		var ctx = createCanvas("graphDiv1");
+		
+		var graph = new BarGraph(ctx);
+		graph.maxValue = 30;
+		graph.margin = 2;
+		graph.colors = ["#49a0d8", "#d353a0", "#ffc527", "#df4c27", "#49a0d8"];
+		graph.xAxisLabelArr = ["Yes", "YWR", "No", "NWR","Abstain"];
+		setInterval(function () {
+			graph.update([math.random() * 30, math.random() * 30, math.random() * 30, math.random() * 30, math.random() * 30]);
+		}, 1000);
 
+	}());
 </script>
 
 Attendance
@@ -122,13 +156,8 @@ Procedural Voting (1)
 <button id="pv1_1">Second</button>
 <button id="pv1_2">Oppose</button>
 <br><br>
-<div class="progress">
-	<div id="res_pv1_1" class="progress-bar progress-bar-success" style="width: 50%">
-	</div>
-	<div id="res_pv1_2" class="progress-bar progress-bar-info" style="width: 50%">
-	</div>
-	
-</div>
+<div id="graphDiv1"></div>
+
 Procedural Voting (2) 
 <button id="pv2_1">For</button>
 <button id="pv2_2">Against</button>

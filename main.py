@@ -77,8 +77,10 @@ def handleCtrl(control):
 		emit('vote_off',{'agenda':str(control['agenda'])},  broadcast=True)
 	elif control['option']==3:
 		print("delete "+str(control['agenda']))
-		cur2=mysql.connection.cursor()
-		cur2.execute("delete from "+str(control['agenda'])+";")
-	mysql.connection.commit()
+		cur=mysql.connection.cursor()
+		cur.execute("delete from "+str(control['agenda'])+";")			
+		emit('vote_reset',str(control['agenda']),broadcast=True)
+		mysql.connection.commit()
 if __name__=="__main__":
-	socketio.run(app)
+	socketio.run(app,host='0.0.0.0')
+

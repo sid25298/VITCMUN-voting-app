@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <head>
-	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.8/socket.io.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.8/socket.io.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity=
 "sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin=”anonymous">
@@ -12,11 +12,15 @@
 	<div id="graphDiv1"></div>
 	<br />
 	<div id="graphDiv2"></div>
+Attendance
+<button id="at_1">Present</button>
+<button id="at_2">Present and voting</button>
+<br><br>
 	<!--[if IE]><script src="excanvas.js"></script><![endif]-->
 	<script src="html5-canvas-bar-graph.js"></script>
 	<script>
-
-		function getCookie(cname) {
+<script type="text/javascript">
+    function getCookie(cname) {
     var name = cname + "=";
     var decodedCookie = decodeURIComponent(document.cookie);
     var ca = decodedCookie.split(';');
@@ -33,14 +37,20 @@
 }
 
 $(document).ready(function() {
+	$('#at_1').off('click');
+	$('#at_2').off('click');
+	$('#pv1_1').off('click');
+	$('#pv1_2').off('click');
+	$('#pv2_1').off('click');
+	$('#pv2_2').off('click');
+	$('#sv_1').off('click');
+	$('#sv_2').off('click');	
+	$('#sv_3').off('click');
+	$('#sv_4').off('click');
+	$('#sv_5').off('click');
 	var us=getCookie('Loginwala');
 	var socket = io.connect('http://127.0.0.1:5000');
-	$('#at_1').on('click',function(){
-		socket.emit('vote',{agenda:'at',option:1,user:us});
-	});
-	$('#at_2').on('click',function(){
-		socket.emit('vote',{agenda:'at',option:2,user:us});
-	});
+	
 	$('#pv1_1').on('click',function(){
 		socket.emit('vote',{agenda:'pv1',option:1,user:us});
 	});
@@ -61,31 +71,56 @@ $(document).ready(function() {
 	});
 	$('#sv_3').on('click',function(){
 		socket.emit('vote',{agenda:'sv',option:3,user:us});
-	});$('#sv_4').on('click',function(){
+	});
+	$('#sv_4').on('click',function(){
 		socket.emit('vote',{agenda:'sv',option:4,user:us});
 	});
 	$('#sv_5').on('click',function(){
 		socket.emit('vote',{agenda:'sv',option:5,user:us});
 	});
-
+		socket.on('vote_on',function(control){
+			
+	});
+		socket.on('vote_off',function(control){
+		if(control.agenda==at)
+		{
+			$('#at_1').on('click',function(){
+		socket.emit('vote',{agenda:'at',option:1,user:us});
+		$('#at_1').off('click');
+	});
+	$('#at_2').on('click',function(){
+		socket.emit('vote',{agenda:'at',option:2,user:us});
+	});
+		
+		}
+	});
 		socket.on('vote_results',function(results){
-		var total_votes=results.results1+results.results2+results.results3+results.results4;
-		var one_pct = Math.round(results.results1/total_votes*100);
+		var total_votes=results.results1+results.results2+results.results3+results.results4+results.results5;
 		
-		var two_pct = Math.round(results.results2/total_votes*100);
 		
-		var three_pct = Math.round(results.results3/total_votes*100);
+		var two_pct = results.results2;
+		
+		var three_pct = results.results3;
 
-		var four_pct = Math.round(results.results4/total_votes*100);
+		var four_pct = results.results4;
+
+		var five_pct = results.results5;
+
+		var one_pct = results.results1;
+	console.log(results.agenda);
+	console.log(one_pct);
+	console.log(two_pct);
+console.log(three_pct);console.log(four_pct);console.log(five_pct);
 	$(('#res_' + results.agenda+'_1')).css('width',one_pct+'%');
 	$(('#res_' + results.agenda+'_2')).css('width',two_pct+'%');
 	$(('#res_' + results.agenda+'_3')).css('width',three_pct+'%');
 	$(('#res_' + results.agenda+'_4')).css('width',four_pct+'%');
+	$(('#res_' + results.agenda+'_5')).css('width',five_pct+'%');
 	
 
 	});
 });
-
+	
 		(function () {
 	
 		function createCanvas(divName) {
