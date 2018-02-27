@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<head>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.8/socket.io.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+ <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity=
+"sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin=”anonymous">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+	<title>Poll Results</title>
+</head>
+
+<body>
+	<div id="graphDiv1"></div>
+	<br />
+	<div id="graphDiv2"></div>
+	<!--[if IE]><script src="excanvas.js"></script><![endif]-->
+	<script src="html5-canvas-bar-graph.js"></script>
+	<script>
+
+		function getCookie(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for(var i = 0; i <ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
+
+$(document).ready(function() {
+	var us=getCookie('Loginwala');
+	var socket = io.connect('http://127.0.0.1:5000');
+	$('#at_1').on('click',function(){
+		socket.emit('vote',{agenda:'at',option:1,user:us});
+	});
+	$('#at_2').on('click',function(){
+		socket.emit('vote',{agenda:'at',option:2,user:us});
+	});
+	$('#pv1_1').on('click',function(){
+		socket.emit('vote',{agenda:'pv1',option:1,user:us});
+	});
+	$('#pv1_2').on('click',function(){
+		socket.emit('vote',{agenda:'pv1',option:2,user:us});
+	});
+	$('#pv2_1').on('click',function(){
+		socket.emit('vote',{agenda:'pv2',option:1,user:us});
+	});
+	$('#pv2_2').on('click',function(){
+		socket.emit('vote',{agenda:'pv2',option:2,user:us});
+	});
+	$('#sv_1').on('click',function(){
+		socket.emit('vote',{agenda:'sv',option:1,user:us});
+	});
+	$('#sv_2').on('click',function(){
+		socket.emit('vote',{agenda:'sv',option:2,user:us});
+	});
+	$('#sv_3').on('click',function(){
+		socket.emit('vote',{agenda:'sv',option:3,user:us});
+	});$('#sv_4').on('click',function(){
+		socket.emit('vote',{agenda:'sv',option:4,user:us});
+	});
+	$('#sv_5').on('click',function(){
+		socket.emit('vote',{agenda:'sv',option:5,user:us});
+	});
+
+		socket.on('vote_results',function(results){
+		var total_votes=results.results1+results.results2+results.results3+results.results4;
+		var one_pct = Math.round(results.results1/total_votes*100);
+		
+		var two_pct = Math.round(results.results2/total_votes*100);
+		
+		var three_pct = Math.round(results.results3/total_votes*100);
+
+		var four_pct = Math.round(results.results4/total_votes*100);
+	$(('#res_' + results.agenda+'_1')).css('width',one_pct+'%');
+	$(('#res_' + results.agenda+'_2')).css('width',two_pct+'%');
+	$(('#res_' + results.agenda+'_3')).css('width',three_pct+'%');
+	$(('#res_' + results.agenda+'_4')).css('width',four_pct+'%');
+	
+
+	});
+});
+
+		(function () {
+	
+		function createCanvas(divName) {
+			
+			var div = document.getElementById(divName);
+			var canvas = document.createElement('canvas');
+			div.appendChild(canvas);
+			if (typeof G_vmlCanvasManager != 'undefined') {
+				canvas = G_vmlCanvasManager.initElement(canvas);
+			}	
+			var ctx = canvas.getContext("2d");
+			return ctx;
+		}
+		
+		var ctx = createCanvas("graphDiv1");
+		
+		var graph = new BarGraph(ctx);
+		graph.maxValue = 30;
+		graph.margin = 2;
+		graph.colors = ["#49a0d8", "#d353a0", "#ffc527", "#df4c27", "#49a0d8"];
+		graph.xAxisLabelArr = ["Yes", "YWR", "No", "NWR","Abstain"];
+		setInterval(function () {
+			graph.update([Math.random() * 30, Math.random() * 30, Math.random() * 30, Math.random() * 30, Math.random() * 30]);
+		}, 1000);
+
+	}());
+		console.log(one_pct);
+		</script>
+</body>
+</html>
