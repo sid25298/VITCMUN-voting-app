@@ -1,11 +1,11 @@
 <html>
 <head>
 <title>Poll Results</title>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.8/socket.io.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
- <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity=
+<script type="text/javascript" src="{{ url_for('static', filename='assets/socket.io.min.js')}}"></script>
+<script src="{{ url_for('static', filename='assets/jquery.min.js')}}"></script>
+ <link href="{{ url_for('static', filename='assets/bootstrap.min.css')}}" rel="stylesheet" integrity=
 "sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin=”anonymous">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+<script href="{{ url_for('static', filename='assets/bootstrap.min.js')}}" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 </head>
 <body>
 <script type="text/javascript">
@@ -75,48 +75,42 @@ $(document).ready(function() {
 	
 
 	socket.on('vote_results',function(results){
-		var total_votes=results.results1+results.results2+results.results3+results.results4+results.results5;
-				
-		var two_pct = Math.round(results.results2/total_votes*100);
-		
-		var three_pct = Math.round(results.results3/total_votes*100);
-
-		var four_pct = Math.round(results.results4/total_votes*100);
-
-		var five_pct = Math.round(results.results5/total_votes*100);
-
-		var one_pct = 100-two_pct-three_pct-four_pct-five_pct;
-	$(('#res_' + results.agenda+'_1')).css('width',one_pct+'%');
-	$(('#res_' + results.agenda+'_2')).css('width',two_pct+'%');
-	$(('#res_' + results.agenda+'_3')).css('width',three_pct+'%');
-	$(('#res_' + results.agenda+'_4')).css('width',four_pct+'%');
-	$(('#res_' + results.agenda+'_5')).css('width',five_pct+'%');
 	
+
+		if(results.agenda=='sv')
+		{
+		
+		document.getElementById("res_"+results.agenda+"_1").innerHTML= results.results1;
+		document.getElementById("res_"+results.agenda+"_2").innerHTML= results.results2;
+		document.getElementById("res_"+results.agenda+"_3").innerHTML= results.results3;
+		document.getElementById("res_"+results.agenda+"_4").innerHTML= results.results4;
+		document.getElementById("res_"+results.agenda+"_5").innerHTML= results.results5;
+		}
+		else
+		{
+			document.getElementById("res_"+results.agenda+"_1").innerHTML= results.results1;
+			document.getElementById("res_"+results.agenda+"_2").innerHTML= results.results2;
+		}
+		
+
+
 
 	});
 	socket.on('vote_reset',function(ag){
 		if(ag=='sv')
 		{
-			one_pct=20
-			two_pct=20
-			three_pct=20
-			four_pct=20
-			five_pct=20
+		
+		document.getElementById("res_"+ag+"_1").innerHTML='';
+		document.getElementById("res_"+ag+"_2").innerHTML='';
+		document.getElementById("res_"+ag+"_3").innerHTML='';
+		document.getElementById("res_"+ag+"_4").innerHTML='';
+		document.getElementById("res_"+ag+"_5").innerHTML='';
 		}
 		else
 		{
-			one_pct=50
-			two_pct=50
-			three_pct=0
-			four_pct=0
-			five_pct=0
+			document.getElementById("res_"+ag+"_1").innerHTML='';
+			document.getElementById("res_"+ag+"_2").innerHTML='';
 		}
-	$(('#res_' + ag+'_1')).css('width',one_pct+'%');
-	$(('#res_' + ag+'_2')).css('width',two_pct+'%');
-	$(('#res_' + ag+'_3')).css('width',three_pct+'%');
-	$(('#res_' + ag+'_4')).css('width',four_pct+'%');
-	$(('#res_' + ag+'_5')).css('width',five_pct+'%');
-	
 	});
 });
 
@@ -127,55 +121,55 @@ Attendance
 <button id="at_sp">Stop</button>
 <button id="at_rs">Reset</button>
 <br><br>
-<div class="progress">
-	<div id="res_at_1" class="progress-bar progress-bar-success" style="width: 50%">
-	</div>
-	<div id="res_at_2" class="progress-bar progress-bar-info" style="width: 50%">
-	</div>
-	
-</div>
+<p style="display:inline">Present : </p>
+<p id="res_at_1" style="display:inline"></p>
+<br>
+<p style="display:inline">Present and Voting : </p>
+<p id="res_at_2" style="display:inline"></p>
+<br><br>
+
 
 Procedural Voting (1) 
 <button id="pv1_s">Start</button>
 <button id="pv1_sp">Stop</button>
 <button id="pv1_rs">Reset</button>
 <br><br>
-<div class="progress">
-	<div id="res_pv1_1" class="progress-bar progress-bar-success" style="width: 50%">
-	</div>
-	<div id="res_pv1_2" class="progress-bar progress-bar-info" style="width: 50%">
-	</div>
-	
-</div>
+<p style="display:inline">Second : </p>
+<p id="res_pv1_1" style="display:inline"></p>
+<br>
+<p style="display:inline">Oppose : </p>
+<p id="res_pv1_2" style="display:inline"></p>
+<br><br>
 Procedural Voting (2) 
 <button id="pv2_s">Start</button>
 <button id="pv2_sp">Stop</button>
 <button id="pv2_rs">Reset</button>
 <br><br>
-<div class="progress">
-	<div id="res_pv2_1" class="progress-bar progress-bar-success" style="width: 50%">
-	</div>
-	<div id="res_pv2_2" class="progress-bar progress-bar-info" style="width: 50%">
-	</div>
-	
-</div>
+<p style="display:inline">For : </p>
+<p id="res_pv2_1" style="display:inline"></p>
+<br>
+<p style="display:inline">Against : </p>
+<p id="res_pv2_2" style="display:inline"></p>
+<br><br>
 Substantial Voting
 <button id="sv_s">Start</button>
 <button id="sv_sp">Stop</button>
 <button id="sv_rs">Reset</button>
 <br><br>
-<div class="progress">
-	<div id="res_sv_1" class="progress-bar progress-bar-success" style="width: 20%">
-	</div>
-	<div id="res_sv_2" class="progress-bar progress-bar-info" style="width: 20%">
-	</div>
-	<div id="res_sv_3" class="progress-bar progress-bar-warning" style="width: 20%">
-	</div>
-	<div id="res_sv_4" class="progress-bar progress-bar-danger" style="width: 20%">
-	</div>
-	<div id="res_sv_5" class="progress-bar progress-bar-success progress-bar-striped" style="width: 20%">
-	</div>
-</div>
+<p style="display:inline">Yes with rights : </p>
+<p id="res_sv_1" style="display:inline"></p>
+<br>
+<p style="display:inline">Yes : </p>
+<p id="res_sv_2" style="display:inline"></p>
+<br>
+<p style="display:inline">No with rights : </p>
+<p id="res_sv_3" style="display:inline"></p>
+<br>
+<p style="display:inline">No : </p>
+<p id="res_sv_4" style="display:inline"></p>
+<br>
+<p style="display:inline">Abstain : </p>
+<p id="res_sv_5" style="display:inline"></p>
 
 </body>
 </html>
