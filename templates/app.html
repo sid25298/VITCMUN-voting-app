@@ -1,13 +1,36 @@
 <html>
 <head>
 <title>Poll Results</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <script type="text/javascript" src="{{ url_for('static', filename='assets/socket.io.min.js')}}"></script>
 <script src="{{ url_for('static', filename='assets/jquery.min.js')}}"></script>
  <link href="{{ url_for('static', filename='assets/bootstrap.min.css')}}" rel="stylesheet" integrity=
 "sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin=”anonymous">
 <script src="{{ url_for('static', filename='assets/bootstrap.min.js')}}" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+<style>
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+</style>
 </head>
-<body>
+<body style="background-color:black; color:white; font-family:Century Gothic">
+
 <script type="text/javascript">
     function getCookie(cname) {
     var name = cname + "=";
@@ -199,59 +222,479 @@ if(control.agenda=='sv')
 });
 
 </script>
+<div class="header" style="margin-left:2vw">
+<h3>VITCMUN Voting and Timer System</h3>
+</div>
+  <hr>
+<div class="container" style="margin-top:5vh">
+  <button type="button" class="btn btn-block btn-lg" style="background-color:black; border-style:solid; border-color:white; border-width: 1px" data-toggle="collapse" data-target="#demo1">Attendance</button>
+  <div id="demo1" style="background-color:white; color:black" class="collapse">
+    <div class="row">
+      <div class="col-xs-7" style="padding-left:6vw">
+          <button id="at_1" type="button" class="btn btn-block"  align="center" style="background-color:#252525; color:white; border-style:solid; border-color:black; border-width: 1px; margin-top:1vh">Present</button>
+      </div>
 
-Attendance
-<button id="at_1">Present</button>
-<button id="at_2">Present and voting</button>
-<br><br>
-<p style="display:inline">Present : </p>
-<p id="res_at_1" style="display:inline"></p>
-<br>
-<p style="display:inline">Present and Voting : </p>
-<p id="res_at_2" style="display:inline"></p>
-<br><br>
+      <div class="col-xs-2">
+        <p id="res_at_1" style="margin-top:1vh; font-size:24px">16</p>
+      </div>
+      <div class="col-xs-3">
+        <button type="button" class="btn" style="background-color:black; color:white; margin-top:1vh" data-toggle="modal" data-target="#myModal11">List</button>
+      </div>
+    </div>
 
-Procedural Voting (1) 
-<button id="pv1_1">Second</button>
-<button id="pv1_2">Oppose</button>
-<br><br>
-<p style="display:inline">Second : </p>
-<p id="res_pv1_1" style="display:inline"></p>
-<br>
-<p style="display:inline">Oppose : </p>
-<p id="res_pv1_2" style="display:inline"></p>
-<br><br>
-Procedural Voting (2) 
-<button id="pv2_1">For</button>
-<button id="pv2_2">Against</button>
-<br><br>
-<p style="display:inline">For : </p>
-<p id="res_pv2_1" style="display:inline"></p>
-<br>
-<p style="display:inline">Against : </p>
-<p id="res_pv2_2" style="display:inline"></p>
-<br><br>
-Substantial Voting
-<button id="sv_1">Yes with rights</button>
-<button id="sv_2">Yes</button>
-<button id="sv_3">No with rights</button>
-<button id="sv_4">No</button>
-<button id="sv_5">Abstain</button>
-<br><br>
-<p style="display:inline">Yes with rights : </p>
-<p id="res_sv_1" style="display:inline"></p>
-<br>
-<p style="display:inline">Yes : </p>
-<p id="res_sv_2" style="display:inline"></p>
-<br>
-<p style="display:inline">No with rights : </p>
-<p id="res_sv_3" style="display:inline"></p>
-<br>
-<p style="display:inline">No : </p>
-<p id="res_sv_4" style="display:inline"></p>
-<br>
-<p style="display:inline">Abstain : </p>
-<p id="res_sv_5" style="display:inline"></p>
+    <!--this is where the modal for Yes with rights comes in-->
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal11" role="dialog">
+      <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Delegates who are Present</h4>
+          </div>
+          <div class="modal-body">
+            <p>Some text in the modal.</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+
+    <!--this is the end of the modal-->
+
+
+    <div class="row">
+      <div class="col-xs-7" style="padding-left:6vw">
+          <button id="at_2" type="button" class="btn btn-block"  align="center" style="background-color:#252525; color:white; border-style:solid; border-color:black; color:white; border-width: 1px; margin-top:1vh">Present and voting</button>
+      </div>
+      <div class="col-xs-2">
+        <p id="res_at_2" style="margin-top:1vh; font-size:24px">16</p>
+      </div>
+      <div class="col-xs-3">
+        <button type="button" class="btn" style="background-color:black; color:white; margin-top:1vh" data-toggle="modal" data-target="#myModal10">List</button>
+      </div>
+    </div>
+
+    <!--this is where the modal for Present and voting comes in-->
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal10" role="dialog">
+      <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Delegates who are Present and voting</h4>
+          </div>
+          <div class="modal-body">
+            <p>Some text in the modal.</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+
+    <!--this is the end of the modal-->
+
+
+  </div>
+</div>
+
+<div class="container" style="margin-top:3vh">
+  <button type="button" class="btn btn-block btn-lg" style="background-color:black; border-style:solid; border-color:white; border-width: 1px" data-toggle="collapse" data-target="#demo2">Procedural Voting 1</button>
+  <div id="demo2" style="background-color:white; color:black" class="collapse">
+    <div class="row">
+      <div class="col-xs-7" style="padding-left:6vw">
+          <button id="pv1_1" type="button" class="btn btn-block"  align="center" style="background-color:#252525; color:white; border-style:solid; border-color:black; border-width: 1px; margin-top:1vh">Support</button>
+      </div>
+      <div class="col-xs-2">
+        <p id="res_pv1_1" style="margin-top:1vh; font-size:24px">16</p>
+      </div>
+      <div class="col-xs-3">
+        <button type="button" class="btn" style="background-color:black; color:white; margin-top:1vh" data-toggle="modal" data-target="#myModal9">List</button>
+      </div>
+    </div>
+    <!--this is where the modal for supporting the motion comes in-->
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal9" role="dialog">
+      <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Delegates who are in support of the Motion</h4>
+          </div>
+          <div class="modal-body">
+            <p>Some text in the modal.</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+
+    <!--this is the end of the modal-->
+
+
+    <div class="row">
+      <div class="col-xs-7" style="padding-left:6vw">
+          <button id="pv1_2" type="button" class="btn btn-block"  align="center" style="background-color:#252525; color:white; border-style:solid; border-color:black; border-width: 1px; margin-top:1vh">Oppose</button>
+      </div>
+      <div class="col-xs-2">
+        <p id="res_pv1_2" style="margin-top:1vh; font-size:24px">16</p>
+      </div>
+      <div class="col-xs-3">
+        <button type="button" class="btn" style="background-color:black; color:white; margin-top:1vh" data-toggle="modal" data-target="#myModal8">List</button>
+      </div>
+    </div>
+    <!--this is where the modal for Oppose comes in-->
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal8" role="dialog">
+      <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Delegates who Oppose the motion</h4>
+          </div>
+          <div class="modal-body">
+            <p>Some text in the modal.</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+
+    <!--this is the end of the modal-->
+
+
+  </div>
+</div>
+
+
+
+<div class="container" style="margin-top:3vh">
+  <button type="button" class="btn btn-block btn-lg" style="background-color:black; border-style:solid; border-color:white; border-width: 1px" data-toggle="collapse" data-target="#demo3">Procedural Voting 2</button>
+  <div id="demo3" style="background-color:white; color:black" class="collapse">
+    <div class="row">
+      <div class="col-xs-7" style="padding-left:6vw">
+          <button id="pv2_1" type="button" class="btn btn-block"  align="center" style="background-color:#252525; color:white; border-style:solid; border-color:black; border-width: 1px; margin-top:1vh">For the Motion</button>
+      </div>
+      <div class="col-xs-2">
+        <p id="res_pv2_1" style="margin-top:1vh; font-size:24px">16</p>
+      </div>
+      <div class="col-xs-3">
+        <button type="button" class="btn" style="background-color:black; color:white; margin-top:1vh" data-toggle="modal" data-target="#myModal7">List</button>
+      </div>
+    </div>
+
+    <!--this is where the modal for For the Motion comes in-->
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal7" role="dialog">
+      <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Delegates who went For the motion</h4>
+          </div>
+          <div class="modal-body">
+            <p>Some text in the modal.</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+
+    <!--this is the end of the modal-->
+
+
+    <div class="row">
+      <div class="col-xs-7" style="padding-left:6vw">
+          <button id="pv2_2" type="button" class="btn btn-block"  align="center" style="background-color:#252525; color:white; border-style:solid; border-color:black; border-width: 1px; margin-top:1vh">Against the Motion</button>
+      </div>
+      <div class="col-xs-2">
+        <p id="res_pv2_2" style="margin-top:1vh; font-size:24px">16</p>
+      </div>
+      <div class="col-xs-3">
+        <button type="button" class="btn" style="background-color:black; color:white; margin-top:1vh" data-toggle="modal" data-target="#myModal6">List</button>
+      </div>
+    </div>
+
+    <!--this is where the modal for Against the motion comes in-->
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal6" role="dialog">
+      <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Delegates who went Against the Motion</h4>
+          </div>
+          <div class="modal-body">
+            <p>Some text in the modal.</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+
+    <!--this is the end of the modal-->
+
+
+  </div>
+</div>
+
+
+<div class="container" style="margin-top:3vh">
+  <button type="button" class="btn btn-block btn-lg" style="background-color:black; border-style:solid; border-color:white; border-width: 1px" data-toggle="collapse" data-target="#demo4">Substantial Voting</button>
+  <div id="demo4" style="background-color:white; color:black" class="collapse">
+    <div class="row">
+      <div class="col-xs-7" style="padding-left:6vw">
+          <button id="sv_1" type="button" class="btn btn-block"  align="center" style="background-color:#252525; color:white; border-style:solid; border-color:black; border-width: 1px; margin-top:1vh">Yes</button>
+      </div>
+      <div class="col-xs-2">
+        <p id="res_sv_1" style="margin-top:1vh; font-size:24px">16</p>
+      </div>
+      <div class="col-xs-3">
+        <button type="button" class="btn" style="background-color:black; color:white; margin-top:1vh" data-toggle="modal" data-target="#myModal5">List</button>
+      </div>
+    </div>
+
+    <!--this is where the modal for Yes comes in-->
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal5" role="dialog">
+      <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Delegates who have voted Yes</h4>
+          </div>
+          <div class="modal-body">
+            <p>Some text in the modal.</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+
+    <!--this is the end of the modal-->
+
+
+    <div class="row">
+      <div class="col-xs-7" style="padding-left:6vw">
+          <button id="sv_2" type="button" class="btn btn-block"  align="center" style="background-color:#252525; color:white; border-style:solid; border-color:black; border-width: 1px; margin-top:1vh">No</button>
+      </div>
+      <div class="col-xs-2">
+        <p id="res_sv_2" style="margin-top:1vh; font-size:24px">16</p>
+      </div>
+      <div class="col-xs-3">
+        <button type="button" class="btn" style="background-color:black; color:white; margin-top:1vh" data-toggle="modal" data-target="#myModal4">List</button>
+      </div>
+    </div>
+
+    <!--this is where the modal for No comes in-->
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal4" role="dialog">
+      <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Delegates who have voted No</h4>
+          </div>
+          <div class="modal-body">
+            <p>Some text in the modal.</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+
+    <!--this is the end of the modal-->
+
+
+
+    <div class="row">
+      <div class="col-xs-7" style="padding-left:6vw">
+          <button id="sv_3" type="button" class="btn btn-block"  align="center" style="background-color:#252525; color:white; border-style:solid; border-color:black; border-width: 1px; margin-top:1vh">Yes with Rights</button>
+      </div>
+      <div class="col-xs-2">
+        <p id="res_sv_3" style="margin-top:1vh; font-size:24px">16</p>
+      </div>
+      <div class="col-xs-3">
+        <button type="button" class="btn" style="background-color:black; color:white; margin-top:1vh" data-toggle="modal" data-target="#myModal3">List</button>
+      </div>
+    </div>
+
+
+    <!--this is where the modal for Yes with rights comes in-->
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal3" role="dialog">
+      <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Delegates who have voted Yes with Rights</h4>
+          </div>
+          <div class="modal-body">
+            <p>Some text in the modal.</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+
+    <!--this is the end of the modal-->
+
+    <div class="row">
+      <div class="col-xs-7" style="padding-left:6vw">
+          <button id="sv_4" type="button" class="btn btn-block"  align="center" style="background-color:#252525; color:white; border-style:solid; border-color:black; border-width: 1px; margin-top:1vh">No with Rights</button>
+      </div>
+      <div class="col-xs-2">
+        <p id="res_sv_4" style="margin-top:1vh; font-size:24px">16</p>
+      </div>
+      <div class="col-xs-3">
+        <button type="button" class="btn" style="background-color:black; color:white; margin-top:1vh" data-toggle="modal" data-target="#myModal1">List</button>
+      </div>
+    </div>
+
+<!--this is where the modal for No with rights comes in-->
+
+<!-- Modal -->
+<div class="modal fade" id="myModal1" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Delegates who have voted No with Rights</h4>
+      </div>
+      <div class="modal-body">
+        <p>Some text in the modal.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+<!--this is the end of the modal-->
+
+
+
+    <div class="row">
+      <div class="col-xs-7" style="padding-left:6vw">
+          <button id="sv_5" type="button" class="btn btn-block"  align="center" style="background-color:#252525; color:white; border-style:solid; border-color:black; border-width: 1px; margin-top:1vh">Abstain</button>
+      </div>
+      <div class="col-xs-2">
+        <p id="res_sv_5" style="margin-top:1vh; font-size:24px">16</p>
+      </div>
+      <div class="col-xs-3">
+        <button type="button" class="btn" style="background-color:black; color:white; margin-top:1vh" data-toggle="modal" data-target="#myModal2">List</button>
+      </div>
+    </div>
+
+<!--this is the beginning of the modal code for Abstain-->
+
+<!-- Modal -->
+<div class="modal fade" id="myModal2" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Delegates who have abstained from voting.</h4>
+      </div>
+      <div class="modal-body">
+        <p>Some text in the modal.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+<!--this is the end for the modal code for Abstain-->
+
+
+  </div>
+</div>
+
+
 
 
 </body>
