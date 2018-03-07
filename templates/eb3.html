@@ -1,0 +1,176 @@
+<html>
+<head>
+<title>Poll Results</title>
+<script type="text/javascript" src="{{ url_for('static', filename='assets/socket.io.min.js')}}"></script>
+<script src="{{ url_for('static', filename='assets/jquery.min.js')}}"></script>
+ <link href="{{ url_for('static', filename='assets/bootstrap.min.css')}}" rel="stylesheet" integrity=
+"sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin=”anonymous">
+<script href="{{ url_for('static', filename='assets/bootstrap.min.js')}}" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+</head>
+<body>
+<script type="text/javascript">
+    function getCookie(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for(var i = 0; i <ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
+
+$(document).ready(function() {
+		  str=window.location.href
+      
+       ghar=(str).substr((str).indexOf('//')+2)
+      
+       var socket=io.connect(ghar);
+   
+	var us=getCookie('Loginwala');
+	
+	$('#at_s').on('click',function(){
+		socket.emit('ctrl',{agenda:'at',option:1,user:us});
+	});
+	$('#at_sp').on('click',function(){
+		socket.emit('ctrl',{agenda:'at',option:2,user:us});
+	});
+	$('#at_rs').on('click',function(){
+		socket.emit('ctrl',{agenda:'at',option:3,user:us});
+	});
+	$('#pv1_s').on('click',function(){
+		socket.emit('ctrl',{agenda:'pv1',option:1,user:us});
+	});
+	$('#pv1_sp').on('click',function(){
+		socket.emit('ctrl',{agenda:'pv1',option:2,user:us});
+	});
+	$('#pv1_rs').on('click',function(){
+		socket.emit('ctrl',{agenda:'pv1',option:3,user:us});
+	});
+	$('#pv2_s').on('click',function(){
+		socket.emit('ctrl',{agenda:'pv2',option:1,user:us});
+	});
+	$('#pv2_sp').on('click',function(){
+		socket.emit('ctrl',{agenda:'pv2',option:2,user:us});
+	});
+	$('#pv2_rs').on('click',function(){
+		socket.emit('ctrl',{agenda:'pv2',option:3,user:us});
+	});
+	$('#sv_s').on('click',function(){
+		socket.emit('ctrl',{agenda:'sv',option:1,user:us});
+	});
+	$('#sv_sp').on('click',function(){
+		socket.emit('ctrl',{agenda:'sv',option:2,user:us});
+	});
+	$('#sv_rs').on('click',function(){
+		socket.emit('ctrl',{agenda:'sv',option:3,user:us});
+	});
+	
+	
+	
+
+	socket.on('vote_results',function(results){
+	
+
+		if(results.agenda=='sv')
+		{
+		
+		document.getElementById("res_"+results.agenda+"_1").innerHTML= results.results1;
+		document.getElementById("res_"+results.agenda+"_2").innerHTML= results.results2;
+		document.getElementById("res_"+results.agenda+"_3").innerHTML= results.results3;
+		document.getElementById("res_"+results.agenda+"_4").innerHTML= results.results4;
+		document.getElementById("res_"+results.agenda+"_5").innerHTML= results.results5;
+		}
+		else
+		{
+			document.getElementById("res_"+results.agenda+"_1").innerHTML= results.results1;
+			document.getElementById("res_"+results.agenda+"_2").innerHTML= results.results2;
+		}
+		
+
+
+
+	});
+	socket.on('vote_reset',function(ag){
+		if(ag=='sv')
+		{
+		
+		document.getElementById("res_"+ag+"_1").innerHTML='';
+		document.getElementById("res_"+ag+"_2").innerHTML='';
+		document.getElementById("res_"+ag+"_3").innerHTML='';
+		document.getElementById("res_"+ag+"_4").innerHTML='';
+		document.getElementById("res_"+ag+"_5").innerHTML='';
+		}
+		else
+		{
+			document.getElementById("res_"+ag+"_1").innerHTML='';
+			document.getElementById("res_"+ag+"_2").innerHTML='';
+		}
+	});
+});
+
+</script>
+
+Attendance
+<button id="at_s">Start</button>
+<button id="at_sp">Stop</button>
+<button id="at_rs">Reset</button>
+<br><br>
+<p style="display:inline">Present : </p>
+<p id="res_at_1" style="display:inline"></p>
+<br>
+<p style="display:inline">Present and Voting : </p>
+<p id="res_at_2" style="display:inline"></p>
+<br><br>
+
+
+Procedural Voting (1) 
+<button id="pv1_s">Start</button>
+<button id="pv1_sp">Stop</button>
+<button id="pv1_rs">Reset</button>
+<br><br>
+<p style="display:inline">Second : </p>
+<p id="res_pv1_1" style="display:inline"></p>
+<br>
+<p style="display:inline">Oppose : </p>
+<p id="res_pv1_2" style="display:inline"></p>
+<br><br>
+Procedural Voting (2) 
+<button id="pv2_s">Start</button>
+<button id="pv2_sp">Stop</button>
+<button id="pv2_rs">Reset</button>
+<br><br>
+<p style="display:inline">For : </p>
+<p id="res_pv2_1" style="display:inline"></p>
+<br>
+<p style="display:inline">Against : </p>
+<p id="res_pv2_2" style="display:inline"></p>
+<br><br>
+Substantial Voting
+<button id="sv_s">Start</button>
+<button id="sv_sp">Stop</button>
+<button id="sv_rs">Reset</button>
+<br><br>
+<p style="display:inline">Yes with rights : </p>
+<p id="res_sv_1" style="display:inline"></p>
+<br>
+<p style="display:inline">Yes : </p>
+<p id="res_sv_2" style="display:inline"></p>
+<br>
+<p style="display:inline">No with rights : </p>
+<p id="res_sv_3" style="display:inline"></p>
+<br>
+<p style="display:inline">No : </p>
+<p id="res_sv_4" style="display:inline"></p>
+<br>
+<p style="display:inline">Abstain : </p>
+<p id="res_sv_5" style="display:inline"></p>
+
+</body>
+</html>
+	
