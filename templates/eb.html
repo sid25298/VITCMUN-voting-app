@@ -50,12 +50,12 @@
 
 $(document).ready(function() {
 	  str=window.location.href
-      
+
         ghar=(str).substr((str).indexOf('//')+2)
-      
+
         var socket=io.connect(ghar);
 	var us=getCookie('Loginwala');
-
+socket.emit('login',us);
 
 	$('#at_s').on('click',function(){
 		socket.emit('ctrl',{agenda:'at',option:1,user:us});
@@ -93,16 +93,16 @@ $(document).ready(function() {
 	$('#sv_rs').on('click',function(){
 		socket.emit('ctrl',{agenda:'sv',option:3,user:us});
 	});
-		
+
 
 
 	socket.on('vote_results',function(results){
-		
+
 
 
 		if(results.agenda=='sv')
 		{
-		
+
 		document.getElementById("res_"+results.agenda+"_1").innerHTML= results.results1;
 		document.getElementById("res_"+results.agenda+"_2").innerHTML= results.results2;
 		document.getElementById("res_"+results.agenda+"_3").innerHTML= results.results3;
@@ -114,15 +114,15 @@ $(document).ready(function() {
 			document.getElementById("res_"+results.agenda+"_1").innerHTML= results.results1;
 			document.getElementById("res_"+results.agenda+"_2").innerHTML= results.results2;
 		}
-		
 
 
-	
+
+
 	});
 	socket.on('vote_reset',function(ag){
 		if(ag=='sv')
 		{
-		
+
 		document.getElementById("res_"+ag+"_1").innerHTML='  ';
 		document.getElementById("res_"+ag+"_2").innerHTML='  ';
 		document.getElementById("res_"+ag+"_3").innerHTML='  ';
@@ -134,7 +134,7 @@ $(document).ready(function() {
 			document.getElementById("res_"+ag+"_1").innerHTML='  ';
 			document.getElementById("res_"+ag+"_2").innerHTML='  ';
 		}
-	
+
 	});
 });
 
@@ -224,18 +224,18 @@ $(document).ready(function() {
 
     <div class="row">
       <div class="col-xs-7" style="padding-left:6vw">
-          
+
       </div>
 
       <div class="col-xs-2">
-        
+
       </div>
       <div class="col-xs-3">
         <button id="at_rs" type="button" class="btn" style="background-color:black; color:white; margin-top:1vh">Reset</button>
       </div>
     </div>
 
-   
+
 
     <!--this is the end of the modal-->
 
@@ -324,11 +324,11 @@ $(document).ready(function() {
     <!--this is the end of the modal-->
     <div class="row">
       <div class="col-xs-7" style="padding-left:6vw">
-          
+
       </div>
 
       <div class="col-xs-2">
-        
+
       </div>
       <div class="col-xs-3">
         <button id="pv1_rs" type="button" class="btn" style="background-color:black; color:white; margin-top:1vh">Reset</button>
@@ -426,11 +426,11 @@ $(document).ready(function() {
 
         <div class="row">
       <div class="col-xs-7" style="padding-left:6vw">
-          
+
       </div>
 
       <div class="col-xs-2">
-        
+
       </div>
       <div class="col-xs-3">
         <button id="pv2_rs" type="button" class="btn" style="background-color:black; color:white; margin-top:1vh">Reset</button>
@@ -573,7 +573,7 @@ $(document).ready(function() {
         <p id="res_sv_4" style="margin-top:1vh; font-size:24px">16</p>
       </div>
       <div class="col-xs-3">
-        
+
       </div>
     </div>
 
@@ -653,4 +653,3 @@ $(document).ready(function() {
 
 </body>
 </html>
-	
