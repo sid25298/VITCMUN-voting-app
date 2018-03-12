@@ -51,8 +51,6 @@
 $(document).ready(function() {
 	  str=window.location.href
 
-
-
        ghar=(str).substr((str).indexOf('//')+2)
 
        var socket=io.connect(ghar);
@@ -106,7 +104,7 @@ $(document).ready(function() {
 socket.on('vote_on',function(control){
 if(control.agenda=='at')
 {
-
+  $("#myModal12").modal();
 	$('#at_1').on('click',function(){
 		$('#at_1').off('click');
 		$('#at_2').off('click');
@@ -120,6 +118,7 @@ if(control.agenda=='at')
 }
 if(control.agenda=='pv1')
 {
+  $("#myModal13").modal();
 	$('#pv1_1').on('click',function(){
 		$('#pv1_1').off('click');
 		$('#pv1_2').off('click');
@@ -133,6 +132,7 @@ if(control.agenda=='pv1')
 }
 if(control.agenda=='pv2')
 {
+  $("#myModal14").modal();
 	$('#pv2_1').on('click',function(){
 		$('#pv2_1').off('click');
 		$('#pv2_2').off('click');
@@ -146,6 +146,7 @@ if(control.agenda=='pv2')
 }
 if(control.agenda=='sv')
 {
+  $("#myModal15").modal();
 	$('#sv_1').on('click',function(){
 		$('#sv_1').off('click');
 	$('#sv_2').off('click');
@@ -256,8 +257,6 @@ if(control.agenda=='sv')
 
 	});
   socket.on('vote_us',function(rs){
-    console.log("l_"+rs.agenda+"_"+rs.option)
-    console.log(rs.final_list)
     document.getElementById("l_"+rs.agenda+"_"+rs.option).innerHTML=rs.final_list;
 
   });
@@ -732,11 +731,85 @@ if(control.agenda=='sv')
 
 <!--this is the end for the modal code for Abstain-->
 
-
-  </div>
+</div>
 </div>
 
 
+<!--this is the start for the modal code for At notification-->
+
+  <div class="modal fade" id="myModal12" style="color:black" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Alert</h4>
+        </div>
+        <div class="modal-body">
+          <p>Voting for Attendance started.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="myModal13" style="color:black" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Alert</h4>
+        </div>
+        <div class="modal-body">
+          <p>Procedural Voting 1 started.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="myModal14" style="color:black" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Alert</h4>
+        </div>
+        <div class="modal-body">
+          <p>Procedural Voting 2 started.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="myModal15" style="color:black" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Alert</h4>
+        </div>
+        <div class="modal-body">
+          <p>Substantial Voting started.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 </body>

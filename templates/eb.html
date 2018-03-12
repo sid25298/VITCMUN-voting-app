@@ -55,7 +55,41 @@ $(document).ready(function() {
 
         var socket=io.connect(ghar);
 	var us=getCookie('Loginwala');
-socket.emit('login',us);
+	socket.emit('login',us);
+
+  $('#m_at_1').on('click',function(){
+    socket.emit('list',{agenda:'at',option:1});
+  });
+  $('#m_at_2').on('click',function(){
+    socket.emit('list',{agenda:'at',option:2});
+  });
+  $('#m_pv1_1').on('click',function(){
+    socket.emit('list',{agenda:'pv1',option:1});
+  });
+  $('#m_pv1_2').on('click',function(){
+    socket.emit('list',{agenda:'pv1',option:2});
+  });
+  $('#m_pv2_1').on('click',function(){
+    socket.emit('list',{agenda:'pv2',option:1});
+  });
+  $('#m_pv2_2').on('click',function(){
+    socket.emit('list',{agenda:'pv2',option:2});
+  });
+  $('#m_sv_1').on('click',function(){
+    socket.emit('list',{agenda:'sv',option:1});
+  });
+  $('#m_sv_2').on('click',function(){
+    socket.emit('list',{agenda:'sv',option:2});
+  });
+  $('#m_sv_3').on('click',function(){
+      socket.emit('list',{agenda:'sv',option:3});
+  });
+  $('#m_sv_4').on('click',function(){
+      socket.emit('list',{agenda:'sv',option:4});
+  });
+  $('#m_sv_5').on('click',function(){
+      socket.emit('list',{agenda:'sv',option:5});
+  });
 
 	$('#at_s').on('click',function(){
 		socket.emit('ctrl',{agenda:'at',option:1,user:us});
@@ -136,6 +170,10 @@ socket.emit('login',us);
 		}
 
 	});
+	socket.on('vote_us',function(rs){
+    		document.getElementById("l_"+rs.agenda+"_"+rs.option).innerHTML=rs.final_list;
+
+  	});
 });
 
 </script>
@@ -148,7 +186,7 @@ socket.emit('login',us);
   <div id="demo1" style="background-color:white; color:black; padding-bottom:1vh" class="collapse">
     <div class="row">
       <div class="col-xs-7" style="padding-left:6vw">
-          <button type="button" class="btn btn-block"  align="center" style="background-color:#252525; color:white; border-style:solid; border-color:black; border-width: 1px; margin-top:1vh"  data-toggle="modal" data-target="#myModal11">Present</button>
+          <button id="m_at_1" type="button" class="btn btn-block"  align="center" style="background-color:#252525; color:white; border-style:solid; border-color:black; border-width: 1px; margin-top:1vh"  data-toggle="modal" data-target="#myModal11">Present</button>
       </div>
 
       <div class="col-xs-2">
@@ -172,7 +210,7 @@ socket.emit('login',us);
             <h4 class="modal-title">Delegates who are Present</h4>
           </div>
           <div class="modal-body">
-            <p>Some text in the modal.</p>
+            <p id="l_at_1">No Votes Yet.</p>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -189,7 +227,7 @@ socket.emit('login',us);
 
     <div class="row">
       <div class="col-xs-7" style="padding-left:6vw">
-          <button type="button" class="btn btn-block"  align="center" style="background-color:#252525; color:white; border-style:solid; border-color:black; color:white; border-width: 1px; margin-top:1vh"  data-toggle="modal" data-target="#myModal10">Present and voting</button>
+          <button id="m_at_2" type="button" class="btn btn-block"  align="center" style="background-color:#252525; color:white; border-style:solid; border-color:black; color:white; border-width: 1px; margin-top:1vh"  data-toggle="modal" data-target="#myModal10">Present and voting</button>
       </div>
       <div class="col-xs-2">
         <p id="res_at_2" style="margin-top:1vh; font-size:24px">16</p>
@@ -212,7 +250,7 @@ socket.emit('login',us);
             <h4 class="modal-title">Delegates who are Present and voting</h4>
           </div>
           <div class="modal-body">
-            <p>Some text in the modal.</p>
+            <p id="l_at_2">No Votes Yet.</p>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -248,7 +286,7 @@ socket.emit('login',us);
   <div id="demo2" style="background-color:white; color:black; padding-bottom:1vh" class="collapse">
     <div class="row">
       <div class="col-xs-7" style="padding-left:6vw">
-          <button type="button" class="btn btn-block"  align="center" style="background-color:#252525; color:white; border-style:solid; border-color:black; border-width: 1px; margin-top:1vh" data-toggle="modal" data-target="#myModal9">Support</button>
+          <button id="m_pv1_1" type="button" class="btn btn-block"  align="center" style="background-color:#252525; color:white; border-style:solid; border-color:black; border-width: 1px; margin-top:1vh" data-toggle="modal" data-target="#myModal9">Support</button>
       </div>
       <div class="col-xs-2">
         <p id="res_pv1_1" style="margin-top:1vh; font-size:24px">16</p>
@@ -270,7 +308,7 @@ socket.emit('login',us);
             <h4 class="modal-title">Delegates who are in support of the Motion</h4>
           </div>
           <div class="modal-body">
-            <p>Some text in the modal.</p>
+            <p id="l_pv1_1">No Votes Yet.</p>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -287,7 +325,7 @@ socket.emit('login',us);
 
     <div class="row">
       <div class="col-xs-7" style="padding-left:6vw">
-          <button id="pv1_2" type="button" class="btn btn-block"  align="center" style="background-color:#252525; color:white; border-style:solid; border-color:black; border-width: 1px; margin-top:1vh" data-toggle="modal" data-target="#myModal8">Oppose</button>
+          <button id="m_pv1_2" type="button" class="btn btn-block"  align="center" style="background-color:#252525; color:white; border-style:solid; border-color:black; border-width: 1px; margin-top:1vh" data-toggle="modal" data-target="#myModal8">Oppose</button>
       </div>
       <div class="col-xs-2">
         <p id="res_pv1_2" style="margin-top:1vh; font-size:24px">16</p>
@@ -309,7 +347,7 @@ socket.emit('login',us);
             <h4 class="modal-title">Delegates who Oppose the motion</h4>
           </div>
           <div class="modal-body">
-            <p>Some text in the modal.</p>
+            <p id="l_pv1_2">No Votes Yet.</p>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -347,7 +385,7 @@ socket.emit('login',us);
   <div id="demo3" style="background-color:white; color:black; padding-bottom:1vh" class="collapse" >
     <div class="row">
       <div class="col-xs-7" style="padding-left:6vw">
-          <button type="button" class="btn btn-block"  align="center" style="background-color:#252525; color:white; border-style:solid; border-color:black; border-width: 1px; margin-top:1vh"  data-toggle="modal" data-target="#myModal7">For the Motion</button>
+          <button id="m_pv2_1" type="button" class="btn btn-block"  align="center" style="background-color:#252525; color:white; border-style:solid; border-color:black; border-width: 1px; margin-top:1vh"  data-toggle="modal" data-target="#myModal7">For the Motion</button>
       </div>
       <div class="col-xs-2">
         <p id="res_pv2_1" style="margin-top:1vh; font-size:24px">16</p>
@@ -370,7 +408,7 @@ socket.emit('login',us);
             <h4 class="modal-title">Delegates who went For the motion</h4>
           </div>
           <div class="modal-body">
-            <p>Some text in the modal.</p>
+            <p id="l_pv2_1">No Votes Yet.</p>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -387,7 +425,7 @@ socket.emit('login',us);
 
     <div class="row">
       <div class="col-xs-7" style="padding-left:6vw">
-          <button type="button" class="btn btn-block"  align="center" style="background-color:#252525; color:white; border-style:solid; border-color:black; border-width: 1px; margin-top:1vh" data-toggle="modal" data-target="#myModal6">Against the Motion</button>
+          <button id="m_pv2_2" type="button" class="btn btn-block"  align="center" style="background-color:#252525; color:white; border-style:solid; border-color:black; border-width: 1px; margin-top:1vh" data-toggle="modal" data-target="#myModal6">Against the Motion</button>
       </div>
       <div class="col-xs-2">
         <p id="res_pv2_2" style="margin-top:1vh; font-size:24px">16</p>
@@ -410,7 +448,7 @@ socket.emit('login',us);
             <h4 class="modal-title">Delegates who went Against the Motion</h4>
           </div>
           <div class="modal-body">
-            <p>Some text in the modal.</p>
+            <p id="l_pv2_2">No Votes Yet.</p>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -446,7 +484,7 @@ socket.emit('login',us);
   <div id="demo4" style="background-color:white; color:black; padding-bottom:1vh" class="collapse">
     <div class="row">
       <div class="col-xs-7" style="padding-left:6vw">
-          <button type="button" class="btn btn-block"  align="center" style="background-color:#252525; color:white; border-style:solid; border-color:black; border-width: 1px; margin-top:1vh"  data-toggle="modal" data-target="#myModal5">Yes</button>
+          <button id="m_sv_1" type="button" class="btn btn-block"  align="center" style="background-color:#252525; color:white; border-style:solid; border-color:black; border-width: 1px; margin-top:1vh"  data-toggle="modal" data-target="#myModal5">Yes</button>
       </div>
       <div class="col-xs-2">
         <p id="res_sv_1" style="margin-top:1vh; font-size:24px">16</p>
@@ -469,7 +507,7 @@ socket.emit('login',us);
             <h4 class="modal-title">Delegates who have voted Yes</h4>
           </div>
           <div class="modal-body">
-            <p>Some text in the modal.</p>
+           <p id="l_sv_1">No Votes Yet.</p>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -486,7 +524,7 @@ socket.emit('login',us);
 
     <div class="row">
       <div class="col-xs-7" style="padding-left:6vw">
-          <button type="button" class="btn btn-block"  align="center" style="background-color:#252525; color:white; border-style:solid; border-color:black; border-width: 1px; margin-top:1vh" data-toggle="modal" data-target="#myModal4">No</button>
+          <button id="m_sv_2" type="button" class="btn btn-block"  align="center" style="background-color:#252525; color:white; border-style:solid; border-color:black; border-width: 1px; margin-top:1vh" data-toggle="modal" data-target="#myModal4">No</button>
       </div>
       <div class="col-xs-2">
         <p id="res_sv_2" style="margin-top:1vh; font-size:24px">16</p>
@@ -509,7 +547,7 @@ socket.emit('login',us);
             <h4 class="modal-title">Delegates who have voted No</h4>
           </div>
           <div class="modal-body">
-            <p>Some text in the modal.</p>
+            <p id="l_sv_2">No Votes Yet.</p>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -527,7 +565,7 @@ socket.emit('login',us);
 
     <div class="row">
       <div class="col-xs-7" style="padding-left:6vw">
-          <button type="button" class="btn btn-block"  align="center" style="background-color:#252525; color:white; border-style:solid; border-color:black; border-width: 1px; margin-top:1vh"  data-toggle="modal" data-target="#myModal3">Yes with Rights</button>
+          <button id="m_sv_3" type="button" class="btn btn-block"  align="center" style="background-color:#252525; color:white; border-style:solid; border-color:black; border-width: 1px; margin-top:1vh"  data-toggle="modal" data-target="#myModal3">Yes with Rights</button>
       </div>
       <div class="col-xs-2">
         <p id="res_sv_3" style="margin-top:1vh; font-size:24px">16</p>
@@ -551,7 +589,7 @@ socket.emit('login',us);
             <h4 class="modal-title">Delegates who have voted Yes with Rights</h4>
           </div>
           <div class="modal-body">
-            <p>Some text in the modal.</p>
+            <p id="l_sv_3">No Votes Yet.</p>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -567,7 +605,7 @@ socket.emit('login',us);
 
     <div class="row">
       <div class="col-xs-7" style="padding-left:6vw">
-          <button type="button" class="btn btn-block"  align="center" style="background-color:#252525; color:white; border-style:solid; border-color:black; border-width: 1px; margin-top:1vh"  data-toggle="modal" data-target="#myModal1">No with Rights</button>
+          <button id="m_sv_4" type="button" class="btn btn-block"  align="center" style="background-color:#252525; color:white; border-style:solid; border-color:black; border-width: 1px; margin-top:1vh"  data-toggle="modal" data-target="#myModal1">No with Rights</button>
       </div>
       <div class="col-xs-2">
         <p id="res_sv_4" style="margin-top:1vh; font-size:24px">16</p>
@@ -590,7 +628,7 @@ socket.emit('login',us);
         <h4 class="modal-title">Delegates who have voted No with Rights</h4>
       </div>
       <div class="modal-body">
-        <p>Some text in the modal.</p>
+        <p id="l_sv_4">No Votes Yet.</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -608,7 +646,7 @@ socket.emit('login',us);
 
     <div class="row">
       <div class="col-xs-7" style="padding-left:6vw">
-          <button type="button" class="btn btn-block"  align="center" style="background-color:#252525; color:white; border-style:solid; border-color:black; border-width: 1px; margin-top:1vh"  data-toggle="modal" data-target="#myModal2">Abstain</button>
+          <button id="m_sv_5" type="button" class="btn btn-block"  align="center" style="background-color:#252525; color:white; border-style:solid; border-color:black; border-width: 1px; margin-top:1vh"  data-toggle="modal" data-target="#myModal2">Abstain</button>
       </div>
       <div class="col-xs-2">
         <p id="res_sv_5" style="margin-top:1vh; font-size:24px">16</p>
@@ -630,7 +668,7 @@ socket.emit('login',us);
         <h4 class="modal-title">Delegates who have abstained from voting.</h4>
       </div>
       <div class="modal-body">
-        <p>Some text in the modal.</p>
+        <p id="l_sv_5">No Votes Yet.</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
