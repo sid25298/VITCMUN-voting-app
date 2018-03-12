@@ -118,8 +118,17 @@ def handleList(details):
           emit('vote_us',{'agenda':str(details['agenda']),'option':str(details['option']),'final_list':text})
      else:
           emit('vote_us',{'agenda':str(details['agenda']),'option':str(details['option']),'final_list':"No Votes Yet."})
-          
 
+@socketio.on('start_timer')
+def handleStart(details):
+    emit('start',details,broadcast=True)
+@socketio.on('pause_timer')
+def handlePause():
+    emit('pause',broadcast=True)
+@socketio.on('reset_timer')
+def handleReset():
+    print('reset')
+    emit('reset',broadcast=True)
 
 if __name__=="__main__":
      socketio.run(app,host='0.0.0.0',port='8082')
